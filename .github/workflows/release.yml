@@ -1,0 +1,86 @@
+name: Build and Release Protoc Plugin
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'   # Trigger on semantic version tags like v1.0.0
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.23.1'
+
+      - name: Build the plugin
+        run: |
+          chmod +x ./build.sh
+          ./build.sh ${{ github.ref_name }}  # Pass the tag as version
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      # Upload Linux amd64 binary
+      - name: Upload Linux amd64 binary
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/${{ github.ref_name }}/protoc-gen-fieldgetters-linux-amd64
+          asset_name: protoc-gen-fieldgetters-linux-amd64
+          asset_content_type: application/octet-stream
+
+      # Upload Linux 386 binary
+      - name: Upload Linux 386 binary
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/${{ github.ref_name }}/protoc-gen-fieldgetters-linux-386
+          asset_name: protoc-gen-fieldgetters-linux-386
+          asset_content_type: application/octet-stream
+
+      # Upload Darwin amd64 binary (Intel)
+      - name: Upload Darwin amd64 binary
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/${{ github.ref_name }}/protoc-gen-fieldgetters-darwin-amd64
+          asset_name: protoc-gen-fieldgetters-darwin-amd64
+          asset_content_type: application/octet-stream
+
+      # Upload Darwin arm64 binary (Apple Silicon)
+      - name: Upload Darwin arm64 binary
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/${{ github.ref_name }}/protoc-gen-fieldgetters-darwin-arm64
+          asset_name: protoc-gen-fieldgetters-darwin-arm64
+          asset_content_type: application/octet-stream
+
+      # Upload Windows amd64 binary
+      - name: Upload Windows amd64 binary
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/${{ github.ref_name }}/protoc-gen-fieldgetters-windows-amd64.exe
+          asset_name: protoc-gen-fieldgetters-windows-amd64.exe
+          asset_content_type: application/octet-stream
+
+      # Upload Windows 386 binary
+      - name: Upload Windows 386 binary
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/${{ github.ref_name }}/protoc-gen-fieldgetters-windows-386.exe
+          asset_name: protoc-gen-fieldgetters-windows-386.exe
+          asset_content_type: application/octet-stream

@@ -27,5 +27,8 @@ go.work.sum
 # .idea directory
 .idea
 
+# dist directory
+dist
+
 # Local development files
 **protos/
