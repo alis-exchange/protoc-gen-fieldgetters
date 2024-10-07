@@ -30,6 +30,8 @@ jobs:
           release_name: ${{ github.ref }}
           draft: false
           prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auth token for creating the release
 
       # Upload Linux amd64 binary
       - name: Upload Linux amd64 binary
@@ -39,6 +41,8 @@ jobs:
           asset_path: ./dist/${{ github.ref_name }}/protoc-gen-fieldgetters-linux-amd64
           asset_name: protoc-gen-fieldgetters-linux-amd64
           asset_content_type: application/octet-stream
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auth token for uploading the asset
 
       # Upload Linux 386 binary
       - name: Upload Linux 386 binary
@@ -48,6 +52,8 @@ jobs:
           asset_path: ./dist/${{ github.ref_name }}/protoc-gen-fieldgetters-linux-386
           asset_name: protoc-gen-fieldgetters-linux-386
           asset_content_type: application/octet-stream
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auth token for uploading the asset
 
       # Upload Darwin amd64 binary (Intel)
       - name: Upload Darwin amd64 binary
@@ -57,6 +63,8 @@ jobs:
           asset_path: ./dist/${{ github.ref_name }}/protoc-gen-fieldgetters-darwin-amd64
           asset_name: protoc-gen-fieldgetters-darwin-amd64
           asset_content_type: application/octet-stream
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auth token for uploading the asset
 
       # Upload Darwin arm64 binary (Apple Silicon)
       - name: Upload Darwin arm64 binary
@@ -66,6 +74,8 @@ jobs:
           asset_path: ./dist/${{ github.ref_name }}/protoc-gen-fieldgetters-darwin-arm64
           asset_name: protoc-gen-fieldgetters-darwin-arm64
           asset_content_type: application/octet-stream
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auth token for uploading the asset
 
       # Upload Windows amd64 binary
       - name: Upload Windows amd64 binary
@@ -75,6 +85,8 @@ jobs:
           asset_path: ./dist/${{ github.ref_name }}/protoc-gen-fieldgetters-windows-amd64.exe
           asset_name: protoc-gen-fieldgetters-windows-amd64.exe
           asset_content_type: application/octet-stream
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auth token for uploading the asset
 
       # Upload Windows 386 binary
       - name: Upload Windows 386 binary
@@ -84,3 +96,5 @@ jobs:
           asset_path: ./dist/${{ github.ref_name }}/protoc-gen-fieldgetters-windows-386.exe
           asset_name: protoc-gen-fieldgetters-windows-386.exe
           asset_content_type: application/octet-stream
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auth token for uploading the asset
