@@ -2,12 +2,15 @@ package main
 
 import (
 	"flag"
+	"fmt"
+	"os"
 
 	"google.golang.org/protobuf/compiler/protogen"
 )
 
 var (
 	includeMsgMethods *bool
+	version           string // This will be set at build time
 )
 
 func main() {
@@ -15,6 +18,16 @@ func main() {
 
 	// Get the flags
 	includeMsgMethods = flags.Bool("include_msg_methods", false, "Include getter methods on messages")
+	showVersion := flag.Bool("version", false, "Print the version of protoc-gen-go-fieldgetters")
+	flag.Parse()
+
+	if *showVersion {
+		if version == "" {
+			version = "development" // Default version if not provided at build time
+		}
+		fmt.Printf("%s\n", version)
+		os.Exit(0)
+	}
 
 	options := protogen.Options{
 		ParamFunc: flags.Set,

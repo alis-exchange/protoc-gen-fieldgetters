@@ -26,9 +26,9 @@ for OS in "${platforms[@]}"; do
     fi
 
     # Set environment variables to target the OS and architecture
-    GOOS=$OS GOARCH=$ARCH go build -o "./$OUTPUT_DIR/protoc-gen-fieldgetters-$OS-$ARCH$EXT" ./cmd/protoc-gen-fieldgetters
+    GOOS=$OS GOARCH=$ARCH go build -ldflags "-X main.version=$VERSION" -o "./$OUTPUT_DIR/protoc-gen-go-fieldgetters-$OS-$ARCH$EXT" ./cmd/protoc-gen-go-fieldgetters
 
-    echo "Built protoc-gen-fieldgetters for $OS/$ARCH"
+    echo "Built protoc-gen-go-fieldgetters@$VERSION for $OS/$ARCH"
   done
 done
 

@@ -1,5 +1,5 @@
 # protoc-gen-fieldgetters
-Custom protoc plugin that generates proto field getters. This is primarily useful for the https://pkg.go.dev/go.alis.build/validator package.
+Custom protoc plugin that generates proto field getters for go stubs. This is primarily useful for the https://pkg.go.dev/go.alis.build/validator package.
 
 > [!IMPORTANT]   
 > This plugin is designed to be used alongside the [protoc-gen-go](https://pkg.go.dev/google.golang.org/protobuf/cmd/protoc-gen-go) and [protoc-gen-go-grpc](https://pkg.go.dev/google.golang.org/grpc/cmd/protoc-gen-go-grpc) plugins. It is not designed to be used standalone.
@@ -22,13 +22,13 @@ fieldGetters.StringGetter(&pb.Message{}, "field_name")
 ## Installation
 
 ```shell
-go install github.com/alis-exchange/protoc-gen-fieldgetters/cmd/protoc-gen-fieldgetters@latest
+go install github.com/alis-exchange/protoc-gen-fieldgetters/cmd/protoc-gen-go-fieldgetters@latest
 ```
 
 ## Usage
 
 ```shell
-protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative --fieldgetters_out=. --fieldgetters_opt=paths=source_relative,include_msg_methods=true path/to/your.proto
+protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative --go-fieldgetters_out=. --go-fieldgetters_opt=paths=source_relative,include_msg_methods=true path/to/your.proto
 ```
 
 ### Supported getters
