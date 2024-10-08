@@ -10,24 +10,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository and tags
+      # Step 1: Checkout the repository and fetch all branches/tags
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Ensure full history is fetched, including tags
+          fetch-depth: 0  # Ensure the entire history and tags are fetched
 
-      # Step 2: Get the branch that triggered the tag
+      # Step 2: Get the branch name that contains the commit associated with the tag
       - name: Determine the branch
         id: extract_branch
         run: |
-          BRANCH=$(git branch --contains ${GITHUB_SHA} | grep -v 'HEAD' | sed -e 's/^[ *]*//')
-          echo "::set-output name=branch::$BRANCH"
+          BRANCH=$(git symbolic-ref --short HEAD || git describe --tags --exact-match || echo "no branch found")
+          echo "Branch: $BRANCH"
+          echo "branch=$BRANCH" >> $GITHUB_OUTPUT
 
-      # Step 3: Set up Node.js environment
+      # Step 3: Set up Node.js environment to install conventional-changelog
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: '16'
 
       # Step 4: Install conventional-changelog-cli
       - name: Install conventional-changelog-cli
@@ -39,15 +40,15 @@ jobs:
         run: |
           conventional-changelog -p angular -i CHANGELOG.md -s -r 0
 
-      # Step 6: Commit and push the changelog to the branch
+      # Step 6: Commit and push the changelog to the determined branch
       - name: Commit and push changelog
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add CHANGELOG.md
           git commit -m "chore: update changelog for ${GITHUB_REF#refs/tags/}"
-          
-          # Push to the branch that created the tag
+
+          # Push the changes to the branch determined in Step 2
           git push origin HEAD:${{ steps.extract_branch.outputs.branch }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
