@@ -38,8 +38,8 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/${{ github.ref_name }}/protoc-gen-fieldgetters-linux-amd64
-          asset_name: protoc-gen-fieldgetters-linux-amd64
+          asset_path: ./dist/${{ github.ref_name }}/protoc-gen-fieldgetters-go-linux-amd64
+          asset_name: protoc-gen-fieldgetters-go-linux-amd64
           asset_content_type: application/octet-stream
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auth token for uploading the asset
@@ -49,8 +49,8 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/${{ github.ref_name }}/protoc-gen-fieldgetters-linux-386
-          asset_name: protoc-gen-fieldgetters-linux-386
+          asset_path: ./dist/${{ github.ref_name }}/protoc-gen-fieldgetters-go-linux-386
+          asset_name: protoc-gen-fieldgetters-go-linux-386
           asset_content_type: application/octet-stream
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auth token for uploading the asset
@@ -60,8 +60,8 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/${{ github.ref_name }}/protoc-gen-fieldgetters-darwin-amd64
-          asset_name: protoc-gen-fieldgetters-darwin-amd64
+          asset_path: ./dist/${{ github.ref_name }}/protoc-gen-fieldgetters-go-darwin-amd64
+          asset_name: protoc-gen-fieldgetters-go-darwin-amd64
           asset_content_type: application/octet-stream
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auth token for uploading the asset
@@ -71,8 +71,8 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/${{ github.ref_name }}/protoc-gen-fieldgetters-darwin-arm64
-          asset_name: protoc-gen-fieldgetters-darwin-arm64
+          asset_path: ./dist/${{ github.ref_name }}/protoc-gen-fieldgetters-go-darwin-arm64
+          asset_name: protoc-gen-fieldgetters-go-darwin-arm64
           asset_content_type: application/octet-stream
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auth token for uploading the asset
@@ -82,8 +82,8 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/${{ github.ref_name }}/protoc-gen-fieldgetters-windows-amd64.exe
-          asset_name: protoc-gen-fieldgetters-windows-amd64.exe
+          asset_path: ./dist/${{ github.ref_name }}/protoc-gen-fieldgetters-go-windows-amd64.exe
+          asset_name: protoc-gen-fieldgetters-go-windows-amd64.exe
           asset_content_type: application/octet-stream
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auth token for uploading the asset
@@ -93,8 +93,8 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/${{ github.ref_name }}/protoc-gen-fieldgetters-windows-386.exe
-          asset_name: protoc-gen-fieldgetters-windows-386.exe
+          asset_path: ./dist/${{ github.ref_name }}/protoc-gen-fieldgetters-go-windows-386.exe
+          asset_name: protoc-gen-fieldgetters-go-windows-386.exe
           asset_content_type: application/octet-stream
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auth token for uploading the asset

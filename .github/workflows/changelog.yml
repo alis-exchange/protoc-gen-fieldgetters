@@ -10,11 +10,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout repository
+      # Step 1: Checkout repository (fetch branches)
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Ensure full commit history is fetched
+          fetch-depth: 0  # Ensure full commit history is fetched, including tags
+          ref: ${{ github.ref_name }}  # Checkout the branch/tag
 
       # Step 2: Set up Node.js environment
       - name: Set up Node.js
@@ -32,13 +33,15 @@ jobs:
         run: |
           conventional-changelog -p angular -i CHANGELOG.md -s -r 0
 
-      # Step 5: Commit and push changelog
+      # Step 5: Commit and push changelog to the correct branch
       - name: Commit and push changelog
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add CHANGELOG.md
           git commit -m "chore: update changelog for ${GITHUB_REF#refs/tags/}"
-          git push
+          
+          # Push the changes to the branch that triggered the tag
+          git push origin HEAD:${{ github.ref_name }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auth token for pushing to repository
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
