@@ -10,30 +10,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout repository (fetch branches)
+      # Step 1: Checkout the repository and tags
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Ensure full commit history is fetched, including tags
-          ref: ${{ github.ref_name }}  # Checkout the branch/tag
+          fetch-depth: 0  # Ensure full history is fetched, including tags
 
-      # Step 2: Set up Node.js environment
+      # Step 2: Get the branch that triggered the tag
+      - name: Determine the branch
+        id: extract_branch
+        run: |
+          BRANCH=$(git branch --contains ${GITHUB_SHA} | grep -v 'HEAD' | sed -e 's/^[ *]*//')
+          echo "::set-output name=branch::$BRANCH"
+
+      # Step 3: Set up Node.js environment
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '20'
 
-      # Step 3: Install conventional-changelog-cli
+      # Step 4: Install conventional-changelog-cli
       - name: Install conventional-changelog-cli
         run: |
           npm install -g conventional-changelog-cli
 
-      # Step 4: Generate changelog
+      # Step 5: Generate changelog
       - name: Generate changelog
         run: |
           conventional-changelog -p angular -i CHANGELOG.md -s -r 0
 
-      # Step 5: Commit and push changelog to the correct branch
+      # Step 6: Commit and push the changelog to the branch
       - name: Commit and push changelog
         run: |
           git config --global user.name "github-actions[bot]"
@@ -41,7 +47,7 @@ jobs:
           git add CHANGELOG.md
           git commit -m "chore: update changelog for ${GITHUB_REF#refs/tags/}"
           
-          # Push the changes to the branch that triggered the tag
-          git push origin HEAD:${{ github.ref_name }}
+          # Push to the branch that created the tag
+          git push origin HEAD:${{ steps.extract_branch.outputs.branch }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
