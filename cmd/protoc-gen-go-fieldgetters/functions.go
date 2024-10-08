@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"go.alis.build/utils"
+	"github.com/alis-exchange/protoc-gen-fieldgetters/cmd/protoc-gen-go-fieldgetters/utils"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/reflect/protoreflect"
 )

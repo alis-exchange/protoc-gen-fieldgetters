@@ -5,7 +5,7 @@ VERSION=$1
 OUTPUT_DIR="dist/$VERSION"
 
 # Create the output directory if it doesn't exist
-mkdir -p $OUTPUT_DIR
+mkdir -p "$OUTPUT_DIR"
 
 # List of platforms and architectures to build for
 platforms=("linux" "darwin" "windows")
