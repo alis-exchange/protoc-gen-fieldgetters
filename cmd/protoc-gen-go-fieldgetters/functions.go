@@ -64,43 +64,43 @@ func (sg *FieldsGetter) processFields(fields []*protogen.Field) error {
 			switch field.Desc.Kind() {
 			case protoreflect.EnumKind:
 				{
-					sg.gen.P(fmt.Sprintf("%s_list := make([]protoreflect.EnumNumber, len(%s.Get%s()))", field.Desc.Name(), strings.ToLower(sg.msg.GoIdent.GoName), field.GoName))
-					sg.gen.P(fmt.Sprintf("for i, %s := range %s.Get%s() {", strings.ToLower(field.GoName), strings.ToLower(sg.msg.GoIdent.GoName), field.GoName))
-					sg.gen.P(fmt.Sprintf("%s_list[i] = %s.Number()", field.Desc.Name(), strings.ToLower(field.GoName)))
+					sg.gen.P(fmt.Sprintf("%s_list := make([]protoreflect.EnumNumber, len(%sMsg.Get%s()))", field.Desc.Name(), strings.ToLower(sg.msg.GoIdent.GoName), field.GoName))
+					sg.gen.P(fmt.Sprintf("for i, item_%s := range %sMsg.Get%s() {", strings.ToLower(field.GoName), strings.ToLower(sg.msg.GoIdent.GoName), field.GoName))
+					sg.gen.P(fmt.Sprintf("%s_list[i] = item_%s.Number()", field.Desc.Name(), strings.ToLower(field.GoName)))
 					sg.gen.P("}")
 					sg.gen.P(fmt.Sprintf("return %s_list, nil", field.Desc.Name()))
 					continue
 				}
 			case protoreflect.Int32Kind:
 				{
-					sg.gen.P(fmt.Sprintf("%s_list := make([]int64, len(%s.Get%s()))", field.Desc.Name(), strings.ToLower(sg.msg.GoIdent.GoName), field.GoName))
-					sg.gen.P(fmt.Sprintf("for i, %s := range %s.Get%s() {", strings.ToLower(field.GoName), strings.ToLower(sg.msg.GoIdent.GoName), field.GoName))
-					sg.gen.P(fmt.Sprintf("%s_list[i] = int64(%s)", field.Desc.Name(), strings.ToLower(field.GoName)))
+					sg.gen.P(fmt.Sprintf("%s_list := make([]int64, len(%sMsg.Get%s()))", field.Desc.Name(), strings.ToLower(sg.msg.GoIdent.GoName), field.GoName))
+					sg.gen.P(fmt.Sprintf("for i, item_%s := range %sMsg.Get%s() {", strings.ToLower(field.GoName), strings.ToLower(sg.msg.GoIdent.GoName), field.GoName))
+					sg.gen.P(fmt.Sprintf("%s_list[i] = int64(item_%s)", field.Desc.Name(), strings.ToLower(field.GoName)))
 					sg.gen.P("}")
 					sg.gen.P(fmt.Sprintf("return %s_list, nil", field.Desc.Name()))
 					continue
 				}
 			case protoreflect.FloatKind:
 				{
-					sg.gen.P(fmt.Sprintf("%s_list := make([]float64, len(%s.Get%s()))", field.Desc.Name(), strings.ToLower(sg.msg.GoIdent.GoName), field.GoName))
-					sg.gen.P(fmt.Sprintf("for i, %s := range %s.Get%s() {", strings.ToLower(field.GoName), strings.ToLower(sg.msg.GoIdent.GoName), field.GoName))
-					sg.gen.P(fmt.Sprintf("%s_list[i] = float64(%s)", field.Desc.Name(), strings.ToLower(field.GoName)))
+					sg.gen.P(fmt.Sprintf("%s_list := make([]float64, len(%sMsg.Get%s()))", field.Desc.Name(), strings.ToLower(sg.msg.GoIdent.GoName), field.GoName))
+					sg.gen.P(fmt.Sprintf("for i, item_%s := range %sMsg.Get%s() {", strings.ToLower(field.GoName), strings.ToLower(sg.msg.GoIdent.GoName), field.GoName))
+					sg.gen.P(fmt.Sprintf("%s_list[i] = float64(item_%s)", field.Desc.Name(), strings.ToLower(field.GoName)))
 					sg.gen.P("}")
 					sg.gen.P(fmt.Sprintf("return %s_list, nil", field.Desc.Name()))
 					continue
 				}
 			case protoreflect.MessageKind:
 				{
-					sg.gen.P(fmt.Sprintf("%s_list := make([]protoreflect.ProtoMessage, len(%s.Get%s()))", field.Desc.Name(), strings.ToLower(sg.msg.GoIdent.GoName), field.GoName))
-					sg.gen.P(fmt.Sprintf("for i, %s := range %s.Get%s() {", strings.ToLower(field.Message.GoIdent.GoName), strings.ToLower(sg.msg.GoIdent.GoName), field.GoName))
-					sg.gen.P(fmt.Sprintf("%s_list[i] = %s", field.Desc.Name(), strings.ToLower(field.Message.GoIdent.GoName)))
+					sg.gen.P(fmt.Sprintf("%s_list := make([]protoreflect.ProtoMessage, len(%sMsg.Get%s()))", field.Desc.Name(), strings.ToLower(sg.msg.GoIdent.GoName), field.GoName))
+					sg.gen.P(fmt.Sprintf("for i, item_%s := range %sMsg.Get%s() {", strings.ToLower(field.Message.GoIdent.GoName), strings.ToLower(sg.msg.GoIdent.GoName), field.GoName))
+					sg.gen.P(fmt.Sprintf("%s_list[i] = item_%s", field.Desc.Name(), strings.ToLower(field.Message.GoIdent.GoName)))
 					sg.gen.P("}")
 					sg.gen.P(fmt.Sprintf("return %s_list, nil", field.Desc.Name()))
 					continue
 				}
 			default:
 				{
-					sg.gen.P(fmt.Sprintf("return %s.Get%s(), nil", strings.ToLower(sg.msg.GoIdent.GoName), field.GoName))
+					sg.gen.P(fmt.Sprintf("return %sMsg.Get%s(), nil", strings.ToLower(sg.msg.GoIdent.GoName), field.GoName))
 					continue
 				}
 			}
@@ -131,7 +131,7 @@ func (sg *FieldsGetter) processFields(fields []*protogen.Field) error {
 
 		sg.gen.P(fmt.Sprintf("case \"%s\":", field.Desc.Name()))
 
-		returnStr := fmt.Sprintf("%s.Get%s()", strings.ToLower(sg.msg.GoIdent.GoName), field.GoName)
+		returnStr := fmt.Sprintf("%sMsg.Get%s()", strings.ToLower(sg.msg.GoIdent.GoName), field.GoName)
 		if field.Desc.Kind() == protoreflect.Int32Kind {
 			returnStr = fmt.Sprintf("int64(%s)", returnStr)
 		}
@@ -188,7 +188,7 @@ func (sg *FieldsGetter) processMessage(parentFields []*protogen.Field, message *
 			traverseStr += fmt.Sprintf(".Get%s()", m)
 		}
 
-		returnStr := fmt.Sprintf("%s%s.Get%s()", strings.ToLower(sg.msg.GoIdent.GoName), traverseStr, field.GoName)
+		returnStr := fmt.Sprintf("%sMsg%s.Get%s()", strings.ToLower(sg.msg.GoIdent.GoName), traverseStr, field.GoName)
 		if field.Desc.Kind() == protoreflect.Int32Kind {
 			returnStr = fmt.Sprintf("int64(%s)", returnStr)
 		}
@@ -273,7 +273,7 @@ func generateMessageGetters(g *protogen.GeneratedFile, msg *protogen.Message, ge
 
 		fieldsGetter.gen.P("fieldGetters.StringGetter = func(msg protoreflect.ProtoMessage, path string) (string, error) {")
 		if fieldsGetter.fieldsLen(msg.Fields) > 0 {
-			fieldsGetter.gen.P(fmt.Sprintf("%s := msg.(*%s)", strings.ToLower(msg.GoIdent.GoName), msg.GoIdent.GoName))
+			fieldsGetter.gen.P(fmt.Sprintf("%sMsg := msg.(*%s)", strings.ToLower(msg.GoIdent.GoName), msg.GoIdent.GoName))
 			fieldsGetter.gen.P()
 		}
 		fieldsGetter.gen.P("switch path {")
@@ -299,7 +299,7 @@ func generateMessageGetters(g *protogen.GeneratedFile, msg *protogen.Message, ge
 
 		fieldsGetter.gen.P("fieldGetters.StringListGetter = func(msg protoreflect.ProtoMessage, path string) ([]string, error) {")
 		if fieldsGetter.fieldsLen(msg.Fields) > 0 {
-			fieldsGetter.gen.P(fmt.Sprintf("%s := msg.(*%s)", strings.ToLower(msg.GoIdent.GoName), msg.GoIdent.GoName))
+			fieldsGetter.gen.P(fmt.Sprintf("%sMsg := msg.(*%s)", strings.ToLower(msg.GoIdent.GoName), msg.GoIdent.GoName))
 			fieldsGetter.gen.P()
 		}
 		fieldsGetter.gen.P("switch path {")
@@ -324,7 +324,7 @@ func generateMessageGetters(g *protogen.GeneratedFile, msg *protogen.Message, ge
 
 		fieldsGetter.gen.P("fieldGetters.BoolGetter = func(msg protoreflect.ProtoMessage, path string) (bool, error) {")
 		if fieldsGetter.fieldsLen(msg.Fields) > 0 {
-			fieldsGetter.gen.P(fmt.Sprintf("%s := msg.(*%s)", strings.ToLower(msg.GoIdent.GoName), msg.GoIdent.GoName))
+			fieldsGetter.gen.P(fmt.Sprintf("%sMsg := msg.(*%s)", strings.ToLower(msg.GoIdent.GoName), msg.GoIdent.GoName))
 			fieldsGetter.gen.P()
 		}
 		fieldsGetter.gen.P("switch path {")
@@ -350,7 +350,7 @@ func generateMessageGetters(g *protogen.GeneratedFile, msg *protogen.Message, ge
 
 		fieldsGetter.gen.P("fieldGetters.BoolListGetter = func(msg protoreflect.ProtoMessage, path string) ([]bool, error) {")
 		if fieldsGetter.fieldsLen(msg.Fields) > 0 {
-			fieldsGetter.gen.P(fmt.Sprintf("%s := msg.(*%s)", strings.ToLower(msg.GoIdent.GoName), msg.GoIdent.GoName))
+			fieldsGetter.gen.P(fmt.Sprintf("%sMsg := msg.(*%s)", strings.ToLower(msg.GoIdent.GoName), msg.GoIdent.GoName))
 			fieldsGetter.gen.P()
 		}
 		fieldsGetter.gen.P("switch path {")
@@ -375,7 +375,7 @@ func generateMessageGetters(g *protogen.GeneratedFile, msg *protogen.Message, ge
 
 		fieldsGetter.gen.P("fieldGetters.IntGetter = func(msg protoreflect.ProtoMessage, path string) (int64, error) {")
 		if fieldsGetter.fieldsLen(msg.Fields) > 0 {
-			fieldsGetter.gen.P(fmt.Sprintf("%s := msg.(*%s)", strings.ToLower(msg.GoIdent.GoName), msg.GoIdent.GoName))
+			fieldsGetter.gen.P(fmt.Sprintf("%sMsg := msg.(*%s)", strings.ToLower(msg.GoIdent.GoName), msg.GoIdent.GoName))
 			fieldsGetter.gen.P()
 		}
 		fieldsGetter.gen.P("switch path {")
@@ -401,7 +401,7 @@ func generateMessageGetters(g *protogen.GeneratedFile, msg *protogen.Message, ge
 
 		fieldsGetter.gen.P("fieldGetters.IntListGetter = func(msg protoreflect.ProtoMessage, path string) ([]int64, error) {")
 		if fieldsGetter.fieldsLen(msg.Fields) > 0 {
-			fieldsGetter.gen.P(fmt.Sprintf("%s := msg.(*%s)", strings.ToLower(msg.GoIdent.GoName), msg.GoIdent.GoName))
+			fieldsGetter.gen.P(fmt.Sprintf("%sMsg := msg.(*%s)", strings.ToLower(msg.GoIdent.GoName), msg.GoIdent.GoName))
 			fieldsGetter.gen.P()
 		}
 		fieldsGetter.gen.P("switch path {")
@@ -426,7 +426,7 @@ func generateMessageGetters(g *protogen.GeneratedFile, msg *protogen.Message, ge
 
 		fieldsGetter.gen.P("fieldGetters.FloatGetter = func(msg protoreflect.ProtoMessage, path string) (float64, error) {")
 		if fieldsGetter.fieldsLen(msg.Fields) > 0 {
-			fieldsGetter.gen.P(fmt.Sprintf("%s := msg.(*%s)", strings.ToLower(msg.GoIdent.GoName), msg.GoIdent.GoName))
+			fieldsGetter.gen.P(fmt.Sprintf("%sMsg := msg.(*%s)", strings.ToLower(msg.GoIdent.GoName), msg.GoIdent.GoName))
 			fieldsGetter.gen.P()
 		}
 		fieldsGetter.gen.P("switch path {")
@@ -452,7 +452,7 @@ func generateMessageGetters(g *protogen.GeneratedFile, msg *protogen.Message, ge
 
 		fieldsGetter.gen.P("fieldGetters.FloatListGetter = func(msg protoreflect.ProtoMessage, path string) ([]float64, error) {")
 		if fieldsGetter.fieldsLen(msg.Fields) > 0 {
-			fieldsGetter.gen.P(fmt.Sprintf("%s := msg.(*%s)", strings.ToLower(msg.GoIdent.GoName), msg.GoIdent.GoName))
+			fieldsGetter.gen.P(fmt.Sprintf("%sMsg := msg.(*%s)", strings.ToLower(msg.GoIdent.GoName), msg.GoIdent.GoName))
 			fieldsGetter.gen.P()
 		}
 		fieldsGetter.gen.P("switch path {")
@@ -477,7 +477,7 @@ func generateMessageGetters(g *protogen.GeneratedFile, msg *protogen.Message, ge
 
 		fieldsGetter.gen.P("fieldGetters.EnumGetter = func(msg protoreflect.ProtoMessage, path string) (protoreflect.EnumNumber, error) {")
 		if fieldsGetter.fieldsLen(msg.Fields) > 0 {
-			fieldsGetter.gen.P(fmt.Sprintf("%s := msg.(*%s)", strings.ToLower(msg.GoIdent.GoName), msg.GoIdent.GoName))
+			fieldsGetter.gen.P(fmt.Sprintf("%sMsg := msg.(*%s)", strings.ToLower(msg.GoIdent.GoName), msg.GoIdent.GoName))
 			fieldsGetter.gen.P()
 		}
 		fieldsGetter.gen.P("switch path {")
@@ -503,7 +503,7 @@ func generateMessageGetters(g *protogen.GeneratedFile, msg *protogen.Message, ge
 
 		fieldsGetter.gen.P("fieldGetters.EnumListGetter = func(msg protoreflect.ProtoMessage, path string) ([]protoreflect.EnumNumber, error) {")
 		if fieldsGetter.fieldsLen(msg.Fields) > 0 {
-			fieldsGetter.gen.P(fmt.Sprintf("%s := msg.(*%s)", strings.ToLower(msg.GoIdent.GoName), msg.GoIdent.GoName))
+			fieldsGetter.gen.P(fmt.Sprintf("%sMsg := msg.(*%s)", strings.ToLower(msg.GoIdent.GoName), msg.GoIdent.GoName))
 			fieldsGetter.gen.P()
 		}
 		fieldsGetter.gen.P("switch path {")
@@ -528,7 +528,7 @@ func generateMessageGetters(g *protogen.GeneratedFile, msg *protogen.Message, ge
 
 		fieldsGetter.gen.P("fieldGetters.SubMessageGetter = func(msg protoreflect.ProtoMessage, path string) (protoreflect.ProtoMessage, error) {")
 		if fieldsGetter.fieldsLen(msg.Fields) > 0 {
-			fieldsGetter.gen.P(fmt.Sprintf("%s := msg.(*%s)", strings.ToLower(msg.GoIdent.GoName), msg.GoIdent.GoName))
+			fieldsGetter.gen.P(fmt.Sprintf("%sMsg := msg.(*%s)", strings.ToLower(msg.GoIdent.GoName), msg.GoIdent.GoName))
 			fieldsGetter.gen.P()
 		}
 		fieldsGetter.gen.P("switch path {")
@@ -554,7 +554,7 @@ func generateMessageGetters(g *protogen.GeneratedFile, msg *protogen.Message, ge
 
 		fieldsGetter.gen.P("fieldGetters.SubMessageListGetter = func(msg protoreflect.ProtoMessage, path string) ([]protoreflect.ProtoMessage, error) {")
 		if fieldsGetter.fieldsLen(msg.Fields) > 0 {
-			fieldsGetter.gen.P(fmt.Sprintf("%s := msg.(*%s)", strings.ToLower(msg.GoIdent.GoName), msg.GoIdent.GoName))
+			fieldsGetter.gen.P(fmt.Sprintf("%sMsg := msg.(*%s)", strings.ToLower(msg.GoIdent.GoName), msg.GoIdent.GoName))
 			fieldsGetter.gen.P()
 		}
 		fieldsGetter.gen.P("switch path {")
