@@ -1,4 +1,13 @@
-# [](https://github.com/alis-exchange/protoc-gen-fieldgetters/compare/v0.0.5...v) (2024-10-08)
+# [](https://github.com/alis-exchange/protoc-gen-fieldgetters/compare/v0.0.6...v) (2024-10-09)
+
+
+
+## [0.0.6](https://github.com/alis-exchange/protoc-gen-fieldgetters/compare/v0.0.5...v0.0.6) (2024-10-09)
+
+
+### Bug Fixes
+
+* fix reserved map keyword ([1de8c72](https://github.com/alis-exchange/protoc-gen-fieldgetters/commit/1de8c725298d996fb1fccf91c7be9f180824169b))
 
 
 
