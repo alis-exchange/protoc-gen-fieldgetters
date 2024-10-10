@@ -1,4 +1,4 @@
-# [](https://github.com/alis-exchange/protoc-gen-fieldgetters/compare/v0.0.8...v) (2024-10-10)
+# [](https://github.com/alis-exchange/protoc-gen-fieldgetters/compare/v0.0.9...v) (2024-10-10)
 
 
 
