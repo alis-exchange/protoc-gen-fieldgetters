@@ -1,4 +1,13 @@
-# [](https://github.com/alis-exchange/protoc-gen-fieldgetters/compare/v0.0.9...v) (2024-10-10)
+# [](https://github.com/alis-exchange/protoc-gen-fieldgetters/compare/v1.0.0...v) (2024-10-10)
+
+
+
+# [1.0.0](https://github.com/alis-exchange/protoc-gen-fieldgetters/compare/v0.0.9...v1.0.0) (2024-10-10)
+
+
+### Features
+
+* update dependencies in prep of stable release ([d138bec](https://github.com/alis-exchange/protoc-gen-fieldgetters/commit/d138bec578451124e0a1c8a2bdd73ba2cf1e7e3d))
 
 
 
