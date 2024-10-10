@@ -62,12 +62,12 @@ func (sg *FieldsGetter) processFields(fields []*protogen.Field) error {
 		if field.Desc.IsList() && sg.isList && utils.Contains(sg.kinds, field.Desc.Kind()) {
 			sg.gen.P(fmt.Sprintf("case \"%s\":", field.Desc.Name()))
 
+			listVariableName := utils.SnakeCaseToCamelCase(fmt.Sprintf("%s_list", field.Desc.Name()))
+			itemVariableName := utils.SnakeCaseToCamelCase(fmt.Sprintf("%s_item", field.GoName))
+
 			switch field.Desc.Kind() {
 			case protoreflect.EnumKind:
 				{
-					listVariableName := utils.SnakeCaseToCamelCase(fmt.Sprintf("%s_list", field.Desc.Name()))
-					itemVariableName := utils.SnakeCaseToCamelCase(fmt.Sprintf("%s_item", field.GoName))
-
 					sg.gen.P(fmt.Sprintf("%s := make([]protoreflect.EnumNumber, len(%s.Get%s()))", listVariableName, sg.msgVariableName, field.GoName))
 					sg.gen.P(fmt.Sprintf("for i, %s := range %s.Get%s() {", itemVariableName, sg.msgVariableName, field.GoName))
 					sg.gen.P(fmt.Sprintf("%s[i] = %s.Number()", listVariableName, itemVariableName))
@@ -77,9 +77,6 @@ func (sg *FieldsGetter) processFields(fields []*protogen.Field) error {
 				}
 			case protoreflect.Int32Kind:
 				{
-					listVariableName := utils.SnakeCaseToCamelCase(fmt.Sprintf("%s_list", field.Desc.Name()))
-					itemVariableName := utils.SnakeCaseToCamelCase(fmt.Sprintf("%s_item", field.GoName))
-
 					sg.gen.P(fmt.Sprintf("%s := make([]int64, len(%s.Get%s()))", listVariableName, sg.msgVariableName, field.GoName))
 					sg.gen.P(fmt.Sprintf("for i, %s := range %s.Get%s() {", itemVariableName, sg.msgVariableName, field.GoName))
 					sg.gen.P(fmt.Sprintf("%s[i] = int64(%s)", listVariableName, itemVariableName))
@@ -89,9 +86,6 @@ func (sg *FieldsGetter) processFields(fields []*protogen.Field) error {
 				}
 			case protoreflect.FloatKind:
 				{
-					listVariableName := utils.SnakeCaseToCamelCase(fmt.Sprintf("%s_list", field.Desc.Name()))
-					itemVariableName := utils.SnakeCaseToCamelCase(fmt.Sprintf("%s_item", field.GoName))
-
 					sg.gen.P(fmt.Sprintf("%s := make([]float64, len(%s.Get%s()))", listVariableName, sg.msgVariableName, field.GoName))
 					sg.gen.P(fmt.Sprintf("for i, %s := range %s.Get%s() {", itemVariableName, sg.msgVariableName, field.GoName))
 					sg.gen.P(fmt.Sprintf("%s[i] = float64(%s)", listVariableName, itemVariableName))
@@ -101,9 +95,6 @@ func (sg *FieldsGetter) processFields(fields []*protogen.Field) error {
 				}
 			case protoreflect.MessageKind:
 				{
-					listVariableName := utils.SnakeCaseToCamelCase(fmt.Sprintf("%s_list", field.Desc.Name()))
-					itemVariableName := utils.SnakeCaseToCamelCase(fmt.Sprintf("%s_item", field.Message.GoIdent.GoName))
-
 					sg.gen.P(fmt.Sprintf("%s := make([]protoreflect.ProtoMessage, len(%s.Get%s()))", listVariableName, sg.msgVariableName, field.GoName))
 					sg.gen.P(fmt.Sprintf("for i, %s := range %s.Get%s() {", itemVariableName, sg.msgVariableName, field.GoName))
 					sg.gen.P(fmt.Sprintf("%s[i] = %s", listVariableName, itemVariableName))
