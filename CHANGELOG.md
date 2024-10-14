@@ -1,4 +1,13 @@
-# [](https://github.com/alis-exchange/protoc-gen-fieldgetters/compare/v1.0.0...v) (2024-10-10)
+# [](https://github.com/alis-exchange/protoc-gen-fieldgetters/compare/v1.0.1...v) (2024-10-14)
+
+
+
+## [1.0.1](https://github.com/alis-exchange/protoc-gen-fieldgetters/compare/v1.0.0...v1.0.1) (2024-10-14)
+
+
+### Bug Fixes
+
+* only add protoreflect import if the proto file has messages ([30d9d1c](https://github.com/alis-exchange/protoc-gen-fieldgetters/commit/30d9d1c2ed1aa003102b1af677c4488a32e6ebd5))
 
 
 
