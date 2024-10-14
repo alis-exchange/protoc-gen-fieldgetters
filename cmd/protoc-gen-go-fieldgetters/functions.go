@@ -32,11 +32,14 @@ func generateFile(gen *protogen.Plugin, file *protogen.File) (*protogen.Generate
 	// Add package name
 	g.P(fmt.Sprintf("package %s", file.GoPackageName))
 
-	// Add imports
-	g.P("import (")
-	g.P("\"google.golang.org/protobuf/reflect/protoreflect\"")
-	g.P(")")
-	g.P()
+	// Only add imports if there are messages in the file
+	if len(file.Messages) > 0 {
+		// Add imports
+		g.P("import (")
+		g.P("\"google.golang.org/protobuf/reflect/protoreflect\"")
+		g.P(")")
+		g.P()
+	}
 
 	// Generate getter functions for messages
 	for _, msg := range file.Messages {
