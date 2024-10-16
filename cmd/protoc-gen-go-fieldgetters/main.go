@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/alis-exchange/protoc-gen-fieldgetters/plugin"
 	"google.golang.org/protobuf/compiler/protogen"
+	"google.golang.org/protobuf/types/pluginpb"
 )
 
 var (
@@ -32,18 +34,13 @@ func main() {
 	options := protogen.Options{
 		ParamFunc: flags.Set,
 	}
-	options.Run(func(gen *protogen.Plugin) error {
-		for _, f := range gen.Files {
-			if !f.Generate {
-				continue
-			}
 
-			if _, err := generateFile(gen, f); err != nil {
-				gen.Error(err)
-				return err
-			}
-		}
-
-		return nil
+	generateMethodMessages := false
+	if includeMsgMethods != nil {
+		generateMethodMessages = *includeMsgMethods
+	}
+	options.Run(func(p *protogen.Plugin) error {
+		p.SupportedFeatures = uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL)
+		return plugin.Generate(p, generateMethodMessages)
 	})
 }

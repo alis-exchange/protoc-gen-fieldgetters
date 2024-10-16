@@ -32,3 +32,6 @@ dist
 
 # Local development files
 **protos/
+
+# Debug files
+**debug**
