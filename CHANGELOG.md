@@ -1,4 +1,13 @@
-# [](https://github.com/alis-exchange/protoc-gen-fieldgetters/compare/v1.0.1...v) (2024-10-14)
+# [](https://github.com/alis-exchange/protoc-gen-fieldgetters/compare/v1.0.2...v) (2024-10-16)
+
+
+
+## [1.0.2](https://github.com/alis-exchange/protoc-gen-fieldgetters/compare/v1.0.1...v1.0.2) (2024-10-16)
+
+
+### Bug Fixes
+
+* fix recursion on messages that have cyclic references, add support for proto3 optional fields ([4b9bc1a](https://github.com/alis-exchange/protoc-gen-fieldgetters/commit/4b9bc1a640abec1be673d962875ac67c1686b4fe))
 
 
 
