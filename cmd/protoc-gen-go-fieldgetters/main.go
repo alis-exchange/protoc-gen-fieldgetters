@@ -11,15 +11,14 @@ import (
 )
 
 var (
-	includeMsgMethods *bool
-	version           string // This will be set at build time
+	version string // This will be set at build time
 )
 
 func main() {
 	var flags flag.FlagSet
 
 	// Get the flags
-	includeMsgMethods = flags.Bool("include_msg_methods", false, "Include getter methods on messages")
+	includeMsgMethods := flags.Bool("include_msg_methods", false, "Include getter methods on messages")
 	showVersion := flag.Bool("version", false, "Print the version of protoc-gen-go-fieldgetters")
 	flag.Parse()
 
@@ -35,11 +34,12 @@ func main() {
 		ParamFunc: flags.Set,
 	}
 
-	generateMethodMessages := false
-	if includeMsgMethods != nil {
-		generateMethodMessages = *includeMsgMethods
-	}
 	options.Run(func(p *protogen.Plugin) error {
+		generateMethodMessages := false
+		if includeMsgMethods != nil {
+			generateMethodMessages = *includeMsgMethods
+		}
+
 		p.SupportedFeatures = uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL)
 		return plugin.Generate(p, generateMethodMessages)
 	})

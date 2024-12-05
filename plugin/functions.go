@@ -618,24 +618,26 @@ func generateMessageGetters(g *protogen.GeneratedFile, msg *protogen.Message, ge
 	g.P("return fieldGetters")
 	g.P("}")
 
+	fieldGettersVariableName := fmt.Sprintf("%sFieldGetters", msg.GoIdent.GoName)
+	g.P(fmt.Sprintf("// %s is a variable that contains getter functions for fields of %s", fieldGettersVariableName, msg.Desc.Name()))
+	g.P(fmt.Sprintf("var %s = New%sFieldGetters()", fieldGettersVariableName, msg.GoIdent.GoName))
+
 	if generateResourceMethods {
+
 		// StringGetter
 		{
 			g.P(fmt.Sprintf("// StringGetter is a getter function for string fields of %s", msg.Desc.Name()))
 			g.P(fmt.Sprintf("func (x *%s) StringGetter(path string) (string, error) {", msg.GoIdent.GoName))
-			g.P(fmt.Sprintf("fieldGetters := New%sFieldGetters()", msg.GoIdent.GoName))
-			g.P("return fieldGetters.StringGetter(x, path)")
+			g.P(fmt.Sprintf("return %s.StringGetter(x, path)", fieldGettersVariableName))
 			g.P("}")
 			g.P()
 		}
 
 		// StringListGetter
 		{
-
 			g.P(fmt.Sprintf("// StringListGetter is a getter function for string list fields of %s", msg.Desc.Name()))
 			g.P(fmt.Sprintf("func (x *%s) StringListGetter(path string) ([]string, error) {", msg.GoIdent.GoName))
-			g.P(fmt.Sprintf("fieldGetters := New%sFieldGetters()", msg.GoIdent.GoName))
-			g.P("return fieldGetters.StringListGetter(x, path)")
+			g.P(fmt.Sprintf("return %s.StringListGetter(x, path)", fieldGettersVariableName))
 			g.P("}")
 			g.P()
 		}
@@ -645,8 +647,7 @@ func generateMessageGetters(g *protogen.GeneratedFile, msg *protogen.Message, ge
 
 			g.P(fmt.Sprintf("// BoolGetter is a getter function for bool fields of %s", msg.Desc.Name()))
 			g.P(fmt.Sprintf("func (x *%s) BoolGetter(path string) (bool, error) {", msg.GoIdent.GoName))
-			g.P(fmt.Sprintf("fieldGetters := New%sFieldGetters()", msg.GoIdent.GoName))
-			g.P("return fieldGetters.BoolGetter(x, path)")
+			g.P(fmt.Sprintf("return %s.BoolGetter(x, path)", fieldGettersVariableName))
 			g.P("}")
 			g.P()
 		}
@@ -656,8 +657,7 @@ func generateMessageGetters(g *protogen.GeneratedFile, msg *protogen.Message, ge
 
 			g.P(fmt.Sprintf("// BoolListGetter is a getter function for bool list fields of %s", msg.Desc.Name()))
 			g.P(fmt.Sprintf("func (x *%s) BoolListGetter(path string) ([]bool, error) {", msg.GoIdent.GoName))
-			g.P(fmt.Sprintf("fieldGetters := New%sFieldGetters()", msg.GoIdent.GoName))
-			g.P("return fieldGetters.BoolListGetter(x, path)")
+			g.P(fmt.Sprintf("return %s.BoolListGetter(x, path)", fieldGettersVariableName))
 			g.P("}")
 			g.P()
 		}
@@ -667,8 +667,7 @@ func generateMessageGetters(g *protogen.GeneratedFile, msg *protogen.Message, ge
 
 			g.P(fmt.Sprintf("// IntGetter is a getter function for int32 and int64 fields of %s", msg.Desc.Name()))
 			g.P(fmt.Sprintf("func (x *%s) IntGetter(path string) (int64, error) {", msg.GoIdent.GoName))
-			g.P(fmt.Sprintf("fieldGetters := New%sFieldGetters()", msg.GoIdent.GoName))
-			g.P("return fieldGetters.IntGetter(x, path)")
+			g.P(fmt.Sprintf("return %s.IntGetter(x, path)", fieldGettersVariableName))
 			g.P("}")
 			g.P()
 		}
@@ -678,8 +677,7 @@ func generateMessageGetters(g *protogen.GeneratedFile, msg *protogen.Message, ge
 
 			g.P(fmt.Sprintf("// IntListGetter is a getter function for int32 and int64 list fields of %s", msg.Desc.Name()))
 			g.P(fmt.Sprintf("func (x *%s) IntListGetter(path string) ([]int64, error) {", msg.GoIdent.GoName))
-			g.P(fmt.Sprintf("fieldGetters := New%sFieldGetters()", msg.GoIdent.GoName))
-			g.P("return fieldGetters.IntListGetter(x, path)")
+			g.P(fmt.Sprintf("return %s.IntListGetter(x, path)", fieldGettersVariableName))
 			g.P("}")
 			g.P()
 		}
@@ -689,8 +687,7 @@ func generateMessageGetters(g *protogen.GeneratedFile, msg *protogen.Message, ge
 
 			g.P(fmt.Sprintf("// FloatGetter is a getter function for float32 and float64 fields of %s", msg.Desc.Name()))
 			g.P(fmt.Sprintf("func (x *%s) FloatGetter(path string) (float64, error) {", msg.GoIdent.GoName))
-			g.P(fmt.Sprintf("fieldGetters := New%sFieldGetters()", msg.GoIdent.GoName))
-			g.P("return fieldGetters.FloatGetter(x, path)")
+			g.P(fmt.Sprintf("return %s.FloatGetter(x, path)", fieldGettersVariableName))
 			g.P("}")
 			g.P()
 		}
@@ -700,8 +697,7 @@ func generateMessageGetters(g *protogen.GeneratedFile, msg *protogen.Message, ge
 
 			g.P(fmt.Sprintf("// FloatListGetter is a getter function for float32 and float64 list fields of %s", msg.Desc.Name()))
 			g.P(fmt.Sprintf("func (x *%s) FloatListGetter(path string) ([]float64, error) {", msg.GoIdent.GoName))
-			g.P(fmt.Sprintf("fieldGetters := New%sFieldGetters()", msg.GoIdent.GoName))
-			g.P("return fieldGetters.FloatListGetter(x, path)")
+			g.P(fmt.Sprintf("return %s.FloatListGetter(x, path)", fieldGettersVariableName))
 			g.P("}")
 			g.P()
 		}
@@ -711,8 +707,7 @@ func generateMessageGetters(g *protogen.GeneratedFile, msg *protogen.Message, ge
 
 			g.P(fmt.Sprintf("// EnumGetter is a getter function for enum fields of %s", msg.Desc.Name()))
 			g.P(fmt.Sprintf("func (x *%s) EnumGetter(path string) (protoreflect.EnumNumber, error) {", msg.GoIdent.GoName))
-			g.P(fmt.Sprintf("fieldGetters := New%sFieldGetters()", msg.GoIdent.GoName))
-			g.P("return fieldGetters.EnumGetter(x, path)")
+			g.P(fmt.Sprintf("return %s.EnumGetter(x, path)", fieldGettersVariableName))
 			g.P("}")
 			g.P()
 		}
@@ -722,8 +717,7 @@ func generateMessageGetters(g *protogen.GeneratedFile, msg *protogen.Message, ge
 
 			g.P(fmt.Sprintf("// EnumListGetter is a getter function for enum list fields of %s", msg.Desc.Name()))
 			g.P(fmt.Sprintf("func (x *%s) EnumListGetter(path string) ([]protoreflect.EnumNumber, error) {", msg.GoIdent.GoName))
-			g.P(fmt.Sprintf("fieldGetters := New%sFieldGetters()", msg.GoIdent.GoName))
-			g.P("return fieldGetters.EnumListGetter(x, path)")
+			g.P(fmt.Sprintf("return %s.EnumListGetter(x, path)", fieldGettersVariableName))
 			g.P("}")
 			g.P()
 		}
@@ -733,8 +727,7 @@ func generateMessageGetters(g *protogen.GeneratedFile, msg *protogen.Message, ge
 
 			g.P(fmt.Sprintf("// SubMessageGetter is a getter function for submessage fields of %s", msg.Desc.Name()))
 			g.P(fmt.Sprintf("func (x *%s) SubMessageGetter(path string) (protoreflect.ProtoMessage, error) {", msg.GoIdent.GoName))
-			g.P(fmt.Sprintf("fieldGetters := New%sFieldGetters()", msg.GoIdent.GoName))
-			g.P("return fieldGetters.SubMessageGetter(x, path)")
+			g.P(fmt.Sprintf("return %s.SubMessageGetter(x, path)", fieldGettersVariableName))
 			g.P("}")
 			g.P()
 		}
@@ -744,8 +737,7 @@ func generateMessageGetters(g *protogen.GeneratedFile, msg *protogen.Message, ge
 
 			g.P(fmt.Sprintf("// SubMessageListGetter is a getter function for submessage list fields of %s", msg.Desc.Name()))
 			g.P(fmt.Sprintf("func (x *%s) SubMessageListGetter(path string) ([]protoreflect.ProtoMessage, error) {", msg.GoIdent.GoName))
-			g.P(fmt.Sprintf("fieldGetters := New%sFieldGetters()", msg.GoIdent.GoName))
-			g.P("return fieldGetters.SubMessageListGetter(x, path)")
+			g.P(fmt.Sprintf("return %s.SubMessageListGetter(x, path)", fieldGettersVariableName))
 			g.P("}")
 			g.P()
 		}
