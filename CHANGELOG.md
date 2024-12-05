@@ -1,4 +1,13 @@
-# [](https://github.com/alis-exchange/protoc-gen-fieldgetters/compare/v1.0.2...v) (2024-10-16)
+# [](https://github.com/alis-exchange/protoc-gen-fieldgetters/compare/v1.0.3...v) (2024-12-05)
+
+
+
+## [1.0.3](https://github.com/alis-exchange/protoc-gen-fieldgetters/compare/v1.0.2...v1.0.3) (2024-12-05)
+
+
+### Bug Fixes
+
+* fix plugin options read ([2f0dab9](https://github.com/alis-exchange/protoc-gen-fieldgetters/commit/2f0dab93c576796cc9eafc13e10122bf173cdb72))
 
 
 
